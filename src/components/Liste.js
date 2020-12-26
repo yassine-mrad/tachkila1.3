@@ -110,6 +110,8 @@ const Liste = () => {
 
             </View>
             <FlatList
+                showsVerticalScrollIndicator={false}
+                showsHorizontalScrollIndicator={false}
                 data={DATA}
                 renderItem={renderItem}
                 keyExtractor={item => item.id.toString()}

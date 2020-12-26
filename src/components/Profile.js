@@ -28,9 +28,7 @@ class Profile extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <TouchableOpacity onPress={() => this.props.navigation.navigate('Liste')}>
-                    <MaterialCommunityIcons name="keyboard-backspace" color={'#00818A'} size={50} />
-                </TouchableOpacity>
+                
                 <View style={styles.iconUser}>
                     <MaterialCommunityIcons name="account-circle" color={'#00818A'} size={80} />
                 </View>

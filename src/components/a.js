@@ -1,5 +1,5 @@
 //import liraries
-import React ,{  useContext,useState }  from 'react'
+import React ,{  useContext }  from 'react'
 
 import * as Animatable from 'react-native-animatable'
 import { View, StyleSheet, Text, ScrollView } from 'react-native'
@@ -11,23 +11,42 @@ import { TextInput, TouchableOpacity } from 'react-native-gesture-handler'
 import { Context as AuthContext } from '../context/AuthContext' ;
 
 // create a component
-const CreerCompte = (props) => {
+const CreerCompte = () => {
     const { state, signup ,clearErrorMessage  } = useContext(AuthContext);
     const [nom,setNom] = useState('');
     const [prenom,setPrenom] = useState('');
-    const [email,setemail] = useState('');
-    const [motdepasse,setmotdepasse] = useState('');
-    const [confirm_motdepasse,setConfirm_motdepasse] = useState('');
+    const [username,setUsername] = useState('');
+    const [password,setPassword] = useState('');
+    const [confirm_password,setConfirm_password] = useState('');
     const [datenaissance,setDatenaissance] = useState('2000-01-01');
     const [localisation,setLocalisation] = useState('');
     const [telephone,setTelephone] = useState('');
     const [profession,setProfession] = useState('');
-    const [niveau,setniveau] = useState('niveau');
-    const [textchange,settextchange] = useState(false);
+    const [select,setSelect] = useState('niveau');
+    const [check_textInputChange,setCheck_textInputChange] = useState(false);
     const [secureTextEntry,setSecureTextEntry] = useState(true);
     const [confirm_secureTextEntry,setConfirm_secureTextEntry] = useState(true);
 
-
+    textInputChange = (val) => {
+        if (val.length !== 0) {
+            
+                setCheck_textInputChange(true) 
+            
+        } else {
+            
+                setCheck_textInputChange(false)
+            
+        }
+    }
+    handlePasswordChange = (val) => {
+        
+            setPassword(val)
+    }
+    handleConfirmPasswordChange = (val) => {
+        
+            setConfirm_password(val)
+        
+    }
     return (
         <View style={styles.container}>
             <View style={styles.header}>
@@ -50,11 +69,11 @@ const CreerCompte = (props) => {
                             placeholder="Nom"
                             style={styles.textInput}
                             autoCapitalize="none"
-                            onChangeText={(nom) =>{ 
+                            onChangeText={(nom) =>{ this.textInputChange(nom)
                                 setNom(nom)
                             }}
                         />
-                        {textchange ?
+                        {this.state.check_textInputChange ?
                             <Animatable.View
                                 animation="bounceIn">
                                 <Icon
@@ -71,11 +90,11 @@ const CreerCompte = (props) => {
                             placeholder="Prénom"
                             style={styles.textInput}
                             autoCapitalize="none"
-                            onChangeText={(prenom) =>{ 
+                            onChangeText={(prenom) =>{ this.textInputChange(prenom)
                                 setPrenom(prenom)
                             }}
                         />
-                        {textchange ?
+                        {this.state.check_textInputChange ?
                             <Animatable.View
                                 animation="bounceIn">
                                 <Icon
@@ -92,11 +111,11 @@ const CreerCompte = (props) => {
                             placeholder="Adresse Email"
                             style={styles.textInput}
                             autoCapitalize="none"
-                            onChangeText={(email) =>{ 
-                                setemail(email)
+                            onChangeText={(username) =>{ this.textInputChange(username)
+                                setUsername(username)
                             }}
                         />
-                        {textchange ?
+                        {this.state.check_textInputChange ?
                             <Animatable.View
                                 animation="bounceIn">
                                 <Icon
@@ -113,11 +132,11 @@ const CreerCompte = (props) => {
                             placeholder="Numéro de Télephone"
                             style={styles.textInput}
                             autoCapitalize="none"
-                            onChangeText={(telephone) =>{ 
+                            onChangeText={(telephone) =>{ this.textInputChange(telephone)
                                 setTelephone(telephone)
                             }}
                         />
-                        {textchange ?
+                        {this.state.check_textInputChange ?
                             <Animatable.View
                                 animation="bounceIn">
                                 <Icon
@@ -134,11 +153,11 @@ const CreerCompte = (props) => {
                             placeholder="Profession"
                             style={styles.textInput}
                             autoCapitalize="none"
-                            onChangeText={(profession) =>{
+                            onChangeText={(profession) =>{ this.textInputChange(profession)
                                 setProfession(profession)
                             }}
                         />
-                        {textchange ?
+                        {this.state.check_textInputChange ?
                             <Animatable.View
                                 animation="bounceIn">
                                 <Icon
@@ -155,11 +174,11 @@ const CreerCompte = (props) => {
                             placeholder="Localisation"
                             style={styles.textInput}
                             autoCapitalize="none"
-                            onChangeText={(localisation) =>{
+                            onChangeText={(localisation) =>{ this.textInputChange(localisation)
                                 setLocalisation(localisation)
                             }}
                         />
-                        {textchange ?
+                        {this.state.check_textInputChange ?
                             <Animatable.View
                                 animation="bounceIn">
                                 <Icon
@@ -196,9 +215,10 @@ const CreerCompte = (props) => {
                     </View>
                     <View style={styles.action}>
                         <Picker
-                            selectedValue={niveau}
+                            selectedValue={select}
                             style={{ height: 50, width: 150, color: '#05375a' }}
-                            onValueChange={(itemValue, itemIndex) =>setniveau(itemValue)
+                            onValueChange={(itemValue, itemIndex) =>
+                                setSelect(itemValue)
                             }
                         >
 
@@ -219,12 +239,12 @@ const CreerCompte = (props) => {
                             secureTextEntry={secureTextEntry ? true : false}
                             style={styles.textInput}
                             autoCapitalize="none"
-                            onChangeText={(val) => setmotdepasse(val)}
+                            onChangeText={(val) => handlePasswordChange(val)}
                         />
                         <TouchableOpacity
                             onPress={() => {  setSecureTextEntry(!secureTextEntry) } }
                         >
-                            {secureTextEntry ?
+                            {this.state.secureTextEntry ?
                                 <Icon
                                     style={styles.icon}
                                     name="eye-slash"
@@ -255,12 +275,12 @@ const CreerCompte = (props) => {
                             secureTextEntry={confirm_secureTextEntry ? true : false}
                             style={styles.textInput}
                             autoCapitalize="none"
-                            onChangeText={(val) => setConfirm_motdepasse(val)}
+                            onChangeText={(val) => handleConfirmPasswordChange(val)}
                         />
                         <TouchableOpacity
                             onPress={() => { setConfirm_secureTextEntry(!confirm_secureTextEntry) }}
                         >
-                            {secureTextEntry ?
+                            {this.state.secureTextEntry ?
                                 <Icon
                                     style={styles.icon}
                                     name="eye-slash"
@@ -281,10 +301,8 @@ const CreerCompte = (props) => {
                     <View style={styles.button}>
                         <TouchableOpacity
                             style={styles.signIn}
-                            onPress={() => {signup({nom,prenom,email,motdepasse,datenaissance,localisation,telephone,profession,niveau})
-                        console.log(nom,prenom,email,motdepasse,datenaissance,localisation,telephone,profession);
-                        }}
-                        >                           
+                            onPress={() => signup({nom,prenom,username,password,datenaissance,localisation,telephone,profession,select})}
+                        >
                             <LinearGradient
                                 colors={['#08d4c4', '#00EAA1']}
                                 style={styles.signIn}
@@ -298,7 +316,7 @@ const CreerCompte = (props) => {
                             <Text style={styles.textS}>Si vous avez dèja un Compte</Text>
                         </View>
                         <TouchableOpacity
-                            onPress={() => props.navigation.goBack()}
+                            onPress={() => this.props.navigation.goBack()}
                             style={[styles.signIn, {
                                 borderColor: '#00EAA1',
                                 borderWidth: 1,
